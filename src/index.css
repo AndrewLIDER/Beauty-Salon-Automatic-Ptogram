@@ -1,5 +1,9 @@
 
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @layer utilities {
   .animate-blob {
     animation: blob 7s infinite;

@@ -1,18 +1,24 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Calendar, LogOut, LogIn, Settings } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 
-export function Header() {
+interface HeaderProps {
+  onAuthClick: () => void;
+}
+
+export function Header({ onAuthClick }: HeaderProps) {
   const { user, signOut } = useAuth();
-  const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await signOut();
-    navigate('/');
+    try {
+      await signOut();
+    } catch (err) {
+      console.error('Logout error:', err);
+    }
   };
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200">
+    <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center space-x-3">
@@ -45,18 +51,13 @@ export function Header() {
                 </button>
               </>
             ) : (
-              <Link
-                to="/"
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate('/');
-                  window.location.hash = 'auth-modal';
-                }}
+              <button
+                onClick={onAuthClick}
                 className="flex items-center space-x-2 px-4 py-2 bg-cyan-50 text-cyan-600 rounded-lg hover:bg-cyan-100 transition-colors"
               >
                 <LogIn className="w-4 h-4" />
                 <span>Увійти</span>
-              </Link>
+              </button>
             )}
           </div>
         </div>

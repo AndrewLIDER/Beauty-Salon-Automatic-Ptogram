@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Header } from '../components/Header';
+import { AuthModal } from '../components/AuthModal';
 import { DynamicHero } from '../components/DynamicHero';
 import { DynamicServices } from '../components/DynamicServices';
 import { DynamicMasters } from '../components/DynamicMasters';
@@ -16,10 +17,11 @@ interface SiteSettings {
 
 export default function HomePage() {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   useEffect(() => {
     const loadSettings = async () => {
-      const { data } = await supabase.from('site_settings').select('*').single();
+      const { data } = await supabase.from('site_settings').select('*').maybeSingle();
       if (data) setSettings(data);
     };
 
@@ -33,13 +35,14 @@ export default function HomePage() {
       .subscribe();
 
     return () => {
-      subscription.unsubscribe();
+      void subscription.unsubscribe();
     };
   }, []);
 
   return (
     <div className="min-h-screen bg-white">
-      <Header />
+      <Header onAuthClick={() => setIsAuthModalOpen(true)} />
+      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
       <DynamicHero />
       <DynamicMasters />
       <DynamicServices />

@@ -22,12 +22,12 @@ export function DynamicHero() {
       .subscribe();
 
     return () => {
-      subscription.unsubscribe();
+      void subscription.unsubscribe();
     };
   }, []);
 
   const loadHero = async () => {
-    const { data } = await supabase.from('hero_settings').select('*').single();
+    const { data } = await supabase.from('hero_settings').select('*').maybeSingle();
     if (data) setHero(data);
   };
 

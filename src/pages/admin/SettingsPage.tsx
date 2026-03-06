@@ -30,7 +30,7 @@ export function SettingsPage() {
   }, []);
 
   const loadSettings = async () => {
-    const { data } = await supabase.from('site_settings').select('*').single();
+    const { data } = await supabase.from('site_settings').select('*').maybeSingle();
     if (data) setSettings(data);
     setLoading(false);
   };

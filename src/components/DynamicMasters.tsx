@@ -5,8 +5,8 @@ interface Master {
   id: string;
   name: string;
   bio: string;
-  photo_url: string;
-  specializations: string[];
+  avatar_url: string;
+  specialization: string[];
 }
 
 export function DynamicMasters() {
@@ -23,7 +23,7 @@ export function DynamicMasters() {
       .subscribe();
 
     return () => {
-      subscription.unsubscribe();
+      void subscription.unsubscribe();
     };
   }, []);
 
@@ -47,10 +47,10 @@ export function DynamicMasters() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {masters.map((master) => (
             <div key={master.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow">
-              {master.photo_url && (
+              {master.avatar_url && (
                 <div className="h-64 overflow-hidden">
                   <img
-                    src={master.photo_url}
+                    src={master.avatar_url}
                     alt={master.name}
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   />
@@ -59,7 +59,7 @@ export function DynamicMasters() {
               <div className="p-6">
                 <h3 className="text-xl font-semibold text-gray-900 mb-2">{master.name}</h3>
                 <p className="text-sm text-cyan-600 mb-3">
-                  {master.specializations?.join(', ')}
+                  {master.specialization?.join(', ')}
                 </p>
                 <p className="text-gray-600 text-sm">{master.bio}</p>
               </div>

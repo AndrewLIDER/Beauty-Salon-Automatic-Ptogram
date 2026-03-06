@@ -12,8 +12,8 @@ interface Master {
   id: string;
   name: string;
   bio: string;
-  photo_url: string;
-  specializations: string[];
+  avatar_url: string;
+  specialization: string[];
   active: boolean;
 }
 
@@ -25,8 +25,8 @@ export function MastersPage() {
   const [formData, setFormData] = useState({
     name: '',
     bio: '',
-    photo_url: '',
-    specializations: '',
+    avatar_url: '',
+    specialization: '',
   });
 
   useEffect(() => {
@@ -45,12 +45,12 @@ export function MastersPage() {
       setFormData({
         name: master.name,
         bio: master.bio || '',
-        photo_url: master.photo_url || '',
-        specializations: master.specializations?.join(', ') || '',
+        avatar_url: master.avatar_url || '',
+        specialization: master.specialization?.join(', ') || '',
       });
     } else {
       setEditingId(null);
-      setFormData({ name: '', bio: '', photo_url: '', specializations: '' });
+      setFormData({ name: '', bio: '', avatar_url: '', specialization: '' });
     }
     setIsModalOpen(true);
   };
@@ -64,8 +64,9 @@ export function MastersPage() {
     const masterData = {
       name: formData.name,
       bio: formData.bio,
-      photo_url: formData.photo_url,
-      specializations: formData.specializations.split(',').map(s => s.trim()).filter(Boolean),
+      avatar_url: formData.avatar_url,
+      specialization: formData.specialization.split(',').map(s => s.trim()).filter(Boolean),
+      active: true,
     };
 
     if (editingId) {
@@ -125,11 +126,11 @@ export function MastersPage() {
               {masters.map((master) => (
                 <TableRow key={master.id}>
                   <TableCell className="font-medium">{master.name}</TableCell>
-                  <TableCell>{master.specializations?.join(', ')}</TableCell>
+                  <TableCell>{master.specialization?.join(', ')}</TableCell>
                   <TableCell>
-                    {master.photo_url && (
+                    {master.avatar_url && (
                       <img
-                        src={master.photo_url}
+                        src={master.avatar_url}
                         alt={master.name}
                         className="w-10 h-10 rounded-full object-cover"
                       />
@@ -175,14 +176,14 @@ export function MastersPage() {
           />
           <Input
             label="URL фото"
-            value={formData.photo_url}
-            onChange={(e) => setFormData({ ...formData, photo_url: e.target.value })}
+            value={formData.avatar_url}
+            onChange={(e) => setFormData({ ...formData, avatar_url: e.target.value })}
             placeholder="https://..."
           />
           <Input
             label="Спеціалізація (через кому)"
-            value={formData.specializations}
-            onChange={(e) => setFormData({ ...formData, specializations: e.target.value })}
+            value={formData.specialization}
+            onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
             placeholder="манікюр, педикюр, гель-лак"
           />
           <Button onClick={handleSave} className="w-full">

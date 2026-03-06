@@ -23,7 +23,7 @@ export function HeroPage() {
   }, []);
 
   const loadHero = async () => {
-    const { data } = await supabase.from('hero_settings').select('*').single();
+    const { data } = await supabase.from('hero_settings').select('*').maybeSingle();
     if (data) setHero(data);
     setLoading(false);
   };

@@ -22,7 +22,7 @@ export function DynamicPortfolio() {
       .subscribe();
 
     return () => {
-      subscription.unsubscribe();
+      void subscription.unsubscribe();
     };
   }, []);
 

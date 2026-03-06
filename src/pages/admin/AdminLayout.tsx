@@ -9,8 +9,13 @@ export function AdminLayout() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await signOut();
-    navigate('/');
+    try {
+      await signOut();
+      navigate('/');
+    } catch (err) {
+      console.error('Logout error:', err);
+      navigate('/');
+    }
   };
 
   const menuItems = [
